@@ -41,22 +41,28 @@ def plot_graphic (x, y):
     plt.show()
 
 def regressao_linear_simples(x_adjustment, y_adjustment):
-    x = np.array(x_adjustment) # vetor com os valores de x
-    y = np.array(y_adjustment) # vetor com os valores de y
-    p1 = np.polyfit(x,y,1) # fornece os valores do intercepto e a inclinação, 1 é o grau do polinômio
-    yfit = p1[0] * x + p1[1] # calcula os valores preditos
-    yresid = y - yfit # resíduo = valor real - valor ajustado (valor predito)
-    SQresid = sum(pow(yresid,2)) # soma dos quadrados dos resíduos 
-    SQtotal = len(y) * np.var(y) # número de elementos do vetor y vezes a variância de y
-    R2 = 1 - SQresid/SQtotal # coeficiente de determinação
-    print(p1) # imprime o intercepto e a inclinação
-    print(R2) # imprime coeficiente de determinação
-    plt.plot(x, y)
-    #plt.plot(x,y,'o')
-    plt.plot(x,np.polyval(p1,x),'g--')
-    #plt.xlabel("x")
-    #plt.ylabel("y")
-    plt.show()
+    i = 0
+    n = 1000
+    plt.plot(x_adjustment, y_adjustment)
+    while (n <= 10000):
+        x = np.array(x_adjustment[i:n]) # vetor com os valores de x
+        y = np.array(y_adjustment[i:n]) # vetor com os valores de y
+        p1 = np.polyfit(x,y,1) # fornece os valores do intercepto e a inclinação, 1 é o grau do polinômio
+        yfit = p1[0] * x + p1[1] # calcula os valores preditos
+        yresid = y - yfit # resíduo = valor real - valor ajustado (valor predito)
+        SQresid = sum(pow(yresid,2)) # soma dos quadrados dos resíduos 
+        SQtotal = len(y) * np.var(y) # número de elementos do vetor y vezes a variância de y
+        R2 = 1 - SQresid/SQtotal # coeficiente de determinação
+        #print(p1) # imprime o intercepto e a inclinação
+        #print(R2) # imprime coeficiente de determinação
+        #plt.plot(x_adjustment, y_adjustment)
+        #plt.plot(x,y,'o')
+        plt.plot(x,np.polyval(p1,x), color='red')
+        #plt.xlabel("x")
+        #plt.ylabel("y")
+        i = n
+        n = n + 1000
+    plt.show()   
 
 def main():
     
