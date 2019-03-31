@@ -104,8 +104,8 @@ def regressao_linear_simples_sobreposto(text_file_series, N_series, yk_for_adjus
     Qb = (int(Qb))
 
     for t in range (Qb): #ajuste sobreposto
-        x = np.array(N_series[i:(n-1)]) # vetor com os valores de x
-        yk = np.array(yk_for_adjustment[i:(n-1)]) # vetor com os valores de yk (série acumulada)
+        x = np.array(N_series[i:(n+1)]) # vetor com os valores de x
+        yk = np.array(yk_for_adjustment[i:(n+1)]) # vetor com os valores de yk (série acumulada)
         p1 = np.polyfit(x,yk,1) # fornece os valores do intercepto e a inclinação, 1 é o grau do polinômio
         yfit = p1[0] * x + p1[1] # calcula os valores preditos
         #print (yfit)
@@ -130,27 +130,33 @@ def regressao_linear_simples_sobreposto(text_file_series, N_series, yk_for_adjus
     for l in range (len(yk_adjustment)):
         yk_temp.extend(yk_adjustment[l])
 
-    print ("Pontos ajustados:", len(yk_temp))    
+    print ("Pontos ajustados:", len(yk_temp))
 
     ######## F(n) sobreposto
 
-    '''y_sum_for_Fn = 0
+    y_sum_for_Fn = 0
+    p = 0
+    q = n_pontos_ajustados 
 
-    for d in range (len(yk_temp)):
+    for d in range ((n_pontos_ajustados+1)*(len(N_series)-n_pontos_ajustados)):
+        while (p <= q):
+            y_sum_for_Fn = y_sum_for_Fn + ((y_original_serie[p] - yk_temp[d]) ** 2) # somatorio (N vzs) do (valor real da série - ajustados de yk)^2
+            p = p + 1
+        q = q + 1
+        p = p - n
         
-        y_sum_for_Fn = y_sum_for_Fn + ((y_original_serie[d] - yk_temp[d]) ** 2) # somatorio (N vzs) do (valor real da série - ajustados de yk)^2
-    #print("sum", y_sum_for_Fn)
+    print("sum", y_sum_for_Fn)
         
-    Fn_nao_sobreposto = ((y_sum_for_Fn / (len(N_series))) ** (1/2))  #Fn igual a raiz do somatório dividido por N (quantidade de pontos da série)
-    print ("Série não sobreposta - F(n) = ", Fn_nao_sobreposto)'''
+    #Fn_nao_sobreposto = ((y_sum_for_Fn / (len(N_series))) ** (1/2))  #Fn igual a raiz do somatório dividido por N (quantidade de pontos da série)
+    #print ("Série não sobreposta - F(n) = ", Fn_nao_sobreposto)'''
 
 def main():
     
     text_file_series = []
-    N = 20 # Series size
-    N_series = []
-
     text_file_series = file_reading (text_file_series)
+    N = len(text_file_series) #serie size
+    print (N)
+    N_series = []
     
     for i in range (N): 
         N_series.append(1+i)
@@ -159,7 +165,7 @@ def main():
     X = average_value_of_series(text_file_series, N)
     Yk = accumulated_series (text_file_series, N, X) # Cumulative after the average was withdrawn
     #plot_graphic(N_series, Yk)
-    #regressao_linear_simples_naosobreposto(text_file_series, N_series, Yk, 4)
+    regressao_linear_simples_naosobreposto(text_file_series, N_series, Yk, 4)
     regressao_linear_simples_sobreposto(text_file_series, N_series, Yk, 4)
  
 
