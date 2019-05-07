@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 def file_reading (text_file_series): #lê arquivo
     
-    file_manipulator = open('teste.txt', 'r')
+    file_manipulator = open('random.txt', 'r')
     for i in file_manipulator:
         i = i.rstrip()
         text_file_series.append(float(i))
@@ -41,8 +41,10 @@ def plot_graphic (x, y):
     plt.show()
 
 def regressao_linear_simples_naosobreposto(text_file_series, N_series, yk_for_adjustment, n_pontos_ajustados):
+    
     n_limite = n_pontos_ajustados
-    while ( n_limite <= (int((len(N_series))/n_pontos_ajustados))):
+    
+    while ( n_limite <= (int((len(N_series))/n_pontos_ajustados))): #Faz o calculo dos vários F(n)
         i = 0
         #n = n_pontos_ajustados
         n = n_limite
@@ -75,13 +77,13 @@ def regressao_linear_simples_naosobreposto(text_file_series, N_series, yk_for_ad
             plt.ylabel("y")
             i = n
             n = n + n_pontos_ajustados
-        plt.show()
+        #plt.show()
 
         yk_temp = [] #todos os pontos (yk) ajustados
         for l in range (len(yk_adjustment)):
             yk_temp.extend(yk_adjustment[l])
 
-        print ("Pontos ajustados:", len(yk_temp))    
+        #print ("Pontos ajustados:", len(yk_temp))    
 
         ######## F(n) não sobreposto
 
