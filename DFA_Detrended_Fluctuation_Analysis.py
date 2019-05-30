@@ -43,7 +43,7 @@ def plot_graphic (x, y):
 ############################################################# NÃO SOBREPOSTO ###############################################################
 
 def regressao_linear_simples_naosobreposto(text_file_series, N_series, yk_for_adjustment, n_pontos_ajustados):
-    
+    file_manipulator = open('teste_naosobreposto.txt', 'w')
     n_limite = n_pontos_ajustados
     y_original_serie = text_file_series
     
@@ -97,14 +97,18 @@ def regressao_linear_simples_naosobreposto(text_file_series, N_series, yk_for_ad
         #print("sum", y_sum_for_Fn)
             
         Fn_nao_sobreposto = ((y_sum_for_Fn / (len(N_series))) ** (1/2))  #Fn igual a raiz do somatório dividido por N (quantidade de pontos da série)
-        print ("Série não sobreposta: F(",n_limite,") = ", Fn_nao_sobreposto)
-
+        #print ("Série não sobreposta: F(",n_limite,") = ", Fn_nao_sobreposto)
+        Fn_file = "Série não sobreposta: F(" + (str(n_limite))+") = " + (str(Fn_nao_sobreposto)) + "\n"
+        file_manipulator.writelines(Fn_file)
         n_limite = n_limite + 1
+
+    #file_manipulator.writelines(Fn_file)
+    file_manipulator.close()
 
 ############################################################# SOBREPOSTO ###############################################################
 
 def regressao_linear_simples_sobreposto(text_file_series, N_series, yk_for_adjustment, n_pontos_ajustados):
-
+    file_manipulator = open('teste_sobreposto.txt', 'w')
     n_limite = n_pontos_ajustados
     y_original_serie = text_file_series
     
@@ -161,8 +165,11 @@ def regressao_linear_simples_sobreposto(text_file_series, N_series, yk_for_adjus
 
         Fn_sobreposto = ((y_sum_for_Fn / ((n_limite + 1) * (len(N_series) - n_limite))) ** (1/2))  #Fn igual a raiz do somatório dividido por (n+1)*(N-n)
         print ("Série sobreposta: F(",n_limite,") = ", Fn_sobreposto)
+        Fn_file = "Série sobreposta: F(" + (str(n_limite))+") = " + (str(Fn_sobreposto)) + "\n"
+        file_manipulator.writelines(Fn_file)
         
         n_limite = n_limite + 1
+    file_manipulator.close()
     
 def main():
     
