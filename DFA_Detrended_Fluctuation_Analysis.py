@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 def file_reading (text_file_series): #lê arquivo
     
-    file_manipulator = open('teste.txt', 'r')
+    file_manipulator = open('random.txt', 'r')
     for i in file_manipulator:
         i = i.rstrip()
         text_file_series.append(float(i))
@@ -43,15 +43,17 @@ def plot_graphic (x, y):
 ############################################################# NÃO SOBREPOSTO ###############################################################
 
 def regressao_linear_simples_naosobreposto(text_file_series, N_series, yk_for_adjustment, n_pontos_ajustados):
-    file_manipulator = open('teste_naosobreposto.txt', 'w')
+    file_manipulator = open('random_NS.txt', 'w')
     n_limite = n_pontos_ajustados
     y_original_serie = text_file_series
+    Fn_nao_sobreposto_plot = []
+    n_limite_plot = []
     
     while ( n_limite <= (int((len(N_series))/n_pontos_ajustados))): #Faz o calculo dos vários F(n)
         i = 0
         #n = n_pontos_ajustados
         n = n_limite
-        plt.plot(N_series, yk_for_adjustment)
+        #plt.plot(N_series, yk_for_adjustment)
         yk_adjustment = []
         yk_real = []
            
@@ -74,9 +76,9 @@ def regressao_linear_simples_naosobreposto(text_file_series, N_series, yk_for_ad
             #print(R2) # imprime coeficiente de determinação
             #plt.plot(x_adjustment, y_adjustment)
             #plt.plot(x,y,'o')
-            plt.plot(x,np.polyval(p1,x), color='red')
+            '''plt.plot(x,np.polyval(p1,x), color='red')
             plt.xlabel("x")
-            plt.ylabel("y")
+            plt.ylabel("y")'''
             i = n
             n = n + n_pontos_ajustados
         #plt.show()
@@ -97,18 +99,21 @@ def regressao_linear_simples_naosobreposto(text_file_series, N_series, yk_for_ad
         #print("sum", y_sum_for_Fn)
             
         Fn_nao_sobreposto = ((y_sum_for_Fn / (len(N_series))) ** (1/2))  #Fn igual a raiz do somatório dividido por N (quantidade de pontos da série)
-        #print ("Série não sobreposta: F(",n_limite,") = ", Fn_nao_sobreposto)
-        Fn_file = "Série não sobreposta: F(" + (str(n_limite))+") = " + (str(Fn_nao_sobreposto)) + "\n"
+        print ("Série não sobreposta: F(",n_limite,") = ", Fn_nao_sobreposto)
+        Fn_nao_sobreposto_plot.append (Fn_nao_sobreposto)
+        n_limite_plot.append (n_limite)
+        Fn_file = "F(" + (str(n_limite))+") = " + (str(Fn_nao_sobreposto)) + "\n"
         file_manipulator.writelines(Fn_file)
         n_limite = n_limite + 1
 
     #file_manipulator.writelines(Fn_file)
     file_manipulator.close()
+    plot_graphic (n_limite_plot, Fn_nao_sobreposto_plot) #Gráfico F(n)
 
 ############################################################# SOBREPOSTO ###############################################################
 
 def regressao_linear_simples_sobreposto(text_file_series, N_series, yk_for_adjustment, n_pontos_ajustados):
-    file_manipulator = open('teste_sobreposto.txt', 'w')
+    file_manipulator = open('random_S.txt', 'w')
     n_limite = n_pontos_ajustados
     y_original_serie = text_file_series
     
@@ -165,7 +170,7 @@ def regressao_linear_simples_sobreposto(text_file_series, N_series, yk_for_adjus
 
         Fn_sobreposto = ((y_sum_for_Fn / ((n_limite + 1) * (len(N_series) - n_limite))) ** (1/2))  #Fn igual a raiz do somatório dividido por (n+1)*(N-n)
         print ("Série sobreposta: F(",n_limite,") = ", Fn_sobreposto)
-        Fn_file = "Série sobreposta: F(" + (str(n_limite))+") = " + (str(Fn_sobreposto)) + "\n"
+        Fn_file = "F(" + (str(n_limite))+") = " + (str(Fn_sobreposto)) + "\n"
         file_manipulator.writelines(Fn_file)
         
         n_limite = n_limite + 1
