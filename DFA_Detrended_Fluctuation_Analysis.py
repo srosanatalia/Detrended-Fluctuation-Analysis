@@ -45,7 +45,6 @@ def accumulated_series (text_file_series, N, X): #série acumulada
 
 def plot_graphic (x, y, title, fileName):
     plt.title(title)
-    plt.plot(x, y,'go')
     plt.plot(x, y,'k:', color='blue')
     plt.xlabel("n")
     plt.ylabel("F(n)")
