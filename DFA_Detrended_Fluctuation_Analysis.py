@@ -1,9 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import Choose_File
 
-def file_reading (text_file_series): #lê arquivo
+def file_reading (text_file_series, fileName): #lê arquivo
     
-    file_manipulator = open('random.txt', 'r')
+    file_manipulator = open(fileName, 'r')
     for i in file_manipulator:
         i = i.rstrip()
         text_file_series.append(float(i))
@@ -36,8 +37,14 @@ def accumulated_series (text_file_series, N, X): #série acumulada
 
     return Yk
 
-def plot_graphic (x, y):
-    plt.plot(x, y)
+def plot_graphic (x, y, title):
+    plt.title(title)
+    plt.plot(x, y,'go')
+    plt.plot(x, y,'k:', color='blue')
+    plt.xlabel("n")
+    plt.ylabel("F(n)")
+    plt.savefig(title + ".png")
+
     plt.show()
 
 ############################################################# NÃO SOBREPOSTO ###############################################################
@@ -108,7 +115,7 @@ def regressao_linear_simples_naosobreposto(text_file_series, N_series, yk_for_ad
 
     #file_manipulator.writelines(Fn_file)
     file_manipulator.close()
-    plot_graphic (n_limite_plot, Fn_nao_sobreposto_plot) #Gráfico F(n)
+    plot_graphic (n_limite_plot, Fn_nao_sobreposto_plot, "F(n) Não-Sobreposto") #Gráfico F(n)
 
 ############################################################# SOBREPOSTO ###############################################################
 
@@ -179,12 +186,13 @@ def regressao_linear_simples_sobreposto(text_file_series, N_series, yk_for_adjus
         
         n_limite = n_limite + 1
     file_manipulator.close()
-    plot_graphic (n_limite_plot, Fn_sobreposto_plot) #Gráfico F(n)
+    plot_graphic (n_limite_plot, Fn_sobreposto_plot, "F(n) Sobreposto") #Gráfico F(n)
     
 def main():
-    
+
+    fileName = Choose_File.main()    
     text_file_series = []
-    text_file_series = file_reading (text_file_series)
+    text_file_series = file_reading (text_file_series, fileName)
     N = len(text_file_series) #serie size
     print ("N: ", N)
     N_series = []

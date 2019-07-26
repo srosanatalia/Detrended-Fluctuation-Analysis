@@ -2,6 +2,8 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog
 from PyQt5.QtGui import QIcon
 
+fileName = ""
+
 class App(QWidget):
 
     def __init__(self):
@@ -17,35 +19,24 @@ class App(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
 
-        self.openFileNameDialog()
-        self.openFileNamesDialog()
-        self.saveFileDialog()
- 
-        self.show()
+        fileName = self.openFileNameDialog()
           
     def openFileNameDialog(self):    
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
         if fileName:
-            print(fileName)
+            fileNamePull (fileName)
+            
+def fileNamePull (name):
+    global fileName
+    fileName = name
 
-    def openFileNamesDialog(self):    
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
-        files, _ = QFileDialog.getOpenFileNames(self,"QFileDialog.getOpenFileNames()", "","All Files (*);;Python Files (*.py)", options=options)
-        if files:
-            print(files)
-
-    def saveFileDialog(self):    
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","All Files (*);;Text Files (*.txt)", options=options)
-        if fileName:
-            print(fileName)
-
-if __name__ == '__main__':
+def main():
     app = QApplication(sys.argv)
     ex = App()
-    sys.exit(app.exec_())
-    exit(0)
+    return fileName
+
+if __name__ == '__main__':
+    main()
+    
