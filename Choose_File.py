@@ -24,7 +24,7 @@ class App(QWidget):
     def openFileNameDialog(self):    
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
+        fileName, _ = QFileDialog.getOpenFileName(self,"Open", "","(*.txt)", options=options)
         if fileName:
             fileNamePull (fileName)
             
