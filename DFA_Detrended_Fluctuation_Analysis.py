@@ -42,11 +42,11 @@ def accumulated_series (text_file_series, N, X):
         Yk.append(sum_Yk)
     return Yk
 
-def plot_graphic (x, y, title, fileName, pathName):
+def plot_graphic (x, y, title, fileName, pathName, x_name, y_name):
     plt.title(title)
-    plt.plot(x, y,'k:', color='blue')
-    plt.xlabel("n")
-    plt.ylabel("F(n)")
+    plt.plot(x, y, color='blue')
+    plt.xlabel(x_name)
+    plt.ylabel(y_name)
     plt.savefig(pathName + fileName + "_"+ title + ".png")
 
     plt.show()
@@ -99,7 +99,7 @@ def regressao_linear_simples_naosobreposto(text_file_series, N_series, yk_for_ad
         n_limite = n_limite + 1
 
     file_manipulator.close()
-    plot_graphic (n_limite_plot, Fn_nao_sobreposto_plot, "F(n)_nãosobreposto",fileName, pathName) 
+    plot_graphic (n_limite_plot, Fn_nao_sobreposto_plot, "F(n)_nãosobreposto",fileName, pathName, "n", "F(n)") 
 
 def regressao_linear_simples_sobreposto(text_file_series, N_series, yk_for_adjustment, n_pontos_ajustados, fileName, pathName):
     file_manipulator = open(pathName + fileName + '_F(n)_sobreposto'+'.txt', 'w')
@@ -147,7 +147,7 @@ def regressao_linear_simples_sobreposto(text_file_series, N_series, yk_for_adjus
         
         n_limite = n_limite + 1
     file_manipulator.close()
-    plot_graphic (n_limite_plot, Fn_sobreposto_plot, "F(n)_sobreposto",fileName, pathName) 
+    plot_graphic (n_limite_plot, Fn_sobreposto_plot, "F(n)_sobreposto",fileName, pathName, "n", "F(n)") 
     
 def main():
 
@@ -161,7 +161,8 @@ def main():
     
     for i in range (N): 
         N_series.append(1+i)
-        
+
+    plot_graphic (N_series, text_file_series, "Série original", fileName, pathName, "x", "y")    
     X = average_value_of_series(text_file_series, N)
     Yk = accumulated_series (text_file_series, N, X) 
     regressao_linear_simples_naosobreposto(text_file_series, N_series, Yk, 4, fileName, pathName)
